@@ -9,8 +9,8 @@
     update_cache: yes
 
 - name: Copy fstab file
-  copy:
-    src: files/fstab
+  template:
+    src: templates/fstab.j2
     dest: /etc/fstab
     mode: 0644
 

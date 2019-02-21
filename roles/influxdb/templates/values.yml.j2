@@ -1,0 +1,59 @@
+## influxdb image version
+## ref: https://hub.docker.com/r/library/influxdb/tags/
+image:
+  repo: "influxdb"
+
+## Specify a service type
+## NodePort is default
+## ref: http://kubernetes.io/docs/user-guide/services/
+##
+service:
+  ## Add annotations to service
+  # annotations: {}
+  type: NodePort
+  ## Add IP Cluster
+  # clusterIP: ""
+  ## Add external IPs that route to one or more cluster nodes
+  # externalIPs: []
+  ## Specify LoadBalancer IP (only allow on some cloud provider)
+  # loadBalancerIP: ""
+  ## Allow source IPs to access on service (if empty, any access allow)
+  # loadBalancerSourceRanges: []
+
+## Persist data to a persistent volume
+##
+persistence:
+  enabled: true
+  ## If true will use an existing PVC instead of creating one
+  # useExisting: false
+  ## Name of existing PVC to be used in the influx deployment
+  # name:
+  ## influxdb data Persistent Volume Storage Class
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  # storageClass: "-"
+  accessMode: ReadWriteOnce
+  size: 8Gi
+
+ingress:
+  enabled: true
+  tls: false
+  # secretName: my-tls-cert # only needed if tls above is true
+  hostname: influxdb.foobar.com
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    # kubernetes.io/tls-acme: "true"
+
+
+## The InfluxDB image uses several environment variables to automatically
+## configure certain parts of the server.
+## Ref: https://hub.docker.com/_/influxdb/
+env:
+  # - name: INFLUXDB_DB
+  #   value: "demo"
+
