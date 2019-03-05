@@ -1,7 +1,15 @@
 ---
 - hosts: master
+<<<<<<< HEAD
   roles:
      - fstab
+=======
+  become: yes
+  roles:
+     - fstab
+  vars:
+    - uuid: 70bf19ec-3559-11e9-8882-00306730d4ed
+>>>>>>> Adding some misc changes
 
 - hosts: kube-cluster
   gather_facts: yes
