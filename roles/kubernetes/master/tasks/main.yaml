@@ -17,3 +17,9 @@
     state: started
     enabled: yes
   register: started_kubelet
+
+- name: Untaint master as a node
+  command: kubectl --kubeconfig=/etc/kubernetes/admin.conf taint nodes --all node-role.kubernetes.io/master-
+  run_once: yes
+  ignore_errors: yes
+
