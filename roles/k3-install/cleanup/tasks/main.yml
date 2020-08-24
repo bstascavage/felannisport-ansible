@@ -1,0 +1,6 @@
+---
+- name: Delete temporary k3s install user
+  user:
+    name: k3s-temp-user
+    state: absent
+  ignore_errors: yes

@@ -1,0 +1,36 @@
+---
+- name: Check if cluster already exists
+  shell: kubectl cluster-info
+  register: cluster_check
+  changed_when: False
+  ignore_errors: yes
+
+- name: Ensure sure we have a 'wheel' group
+  group:
+    name: wheel
+    state: present
+
+# As of 1/31/2020, k8sup does not support password-based sudo.  Because of this, we create a temporary k3s user
+# with password-less sudo access.  This user gets deleted at the end of the ansible playbook.
+- name: Create temporary k3s install user
+  user:
+    name: k3s-temp-user
+    group: wheel
+    shell: /bin/bash
+    create_home: yes
+  when: cluster_check.rc != 0
+
+- name: Set authorized key taken from file for temporary k3s install user
+  authorized_key:
+    user: k3s-temp-user
+    state: present
+    key: "{{ lookup('file', 'keys/temp-user.pub') }}"
+  register: add_identity_key
+  when: default_user is defined and cluster_check.rc != 0
+
+- name: Add wheel group to sudoers
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%wheel\s'
+    line: "%wheel ALL=(ALL) NOPASSWD: ALL"

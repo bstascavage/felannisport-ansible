@@ -1,26 +1,40 @@
 ---
-- hosts: master
-  become: yes
-  roles:
-     - fstab
-  vars:
-    - uuid: 70bf19ec-3559-11e9-8882-00306730d4ed
-
-- hosts: kube-cluster
+- hosts: all
   gather_facts: yes
   become: yes
   roles:
-    - { role: docker, tags: docker }
+    - { role: initialization/initial-setup, tags: initial, cluster }
+    - { role: initialization/netplan, tags: netplan, cluster }
 
-- hosts: master
-  gather_facts: yes
+- hosts: all
+  gather_facts: no
   become: yes
   roles:
-    - { role: kubernetes/master, tags: master }
-    - { role: cni, tags: cni }
+    - { role: initialization/cgroup, tags: cgroup, cluster }
 
-- hosts: node
-  gather_facts: yes
+- hosts: all
+  gather_facts: no
   become: yes
   roles:
-    - { role: kubernetes/node, tags: node }
+    - { role: k3-install/user, tags: k3-install }
+
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  roles:
+    - { role: k3-install/first-node, tags: k3-install }
+  environment:
+    KUBECONFIG: "{{ kubeconfig_location }}"
+
+- hosts: all
+  gather_facts: no
+  become: yes
+  roles:
+    - { role: k3-install/cleanup, tags: k3-install }
+# - hosts: localhost
+#   gather_facts: no
+#   connection: local
+#   roles:
+#     - { role: k3-install/helm, tags: helm }
+#   environment:
+#     KUBECONFIG: "{{ kubeconfig_location }}"

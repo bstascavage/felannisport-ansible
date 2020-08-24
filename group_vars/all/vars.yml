@@ -1,0 +1,21 @@
+# Ansible
+# ansible_user: root
+
+# Cluster-wide variables
+setup_user: ubuntu
+default_user: bstascav
+ssh_identity_key: /Users/bstascav/.ssh/publickey.pub
+ssh_identity_key_temp_user: "{{ ssh_identity_key }}"
+
+ansible_python_interpreter: /usr/bin/python3
+ansible_user: "{{ default_user }}"
+ansible_become_method: sudo
+ansible_become_password: "{{ vault_user_password }}"
+
+# SSH Service variables
+sshd: ssh
+sshd_config: /etc/ssh/sshd_config
+
+# Kubernetes
+kubectl_context: felannisport
+kubeconfig_location: ./kubeconfig

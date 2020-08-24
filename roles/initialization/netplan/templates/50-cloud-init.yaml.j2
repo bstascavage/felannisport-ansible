@@ -1,0 +1,14 @@
+{% filter indent(width=4) %}
+network:
+    version: 2
+    ethernets:
+        eth0:
+            dhcp4: true
+            addresses:
+{% for address in addresses %}
+                    - {{ address }}
+{% endfor %}
+            match:
+                macaddress: {{ hostvars[inventory_hostname].ansible_default_ipv4.macaddress }}
+            set-name: eth0
+{% endfilter %}
