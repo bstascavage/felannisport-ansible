@@ -16,7 +16,7 @@
   connection: local
   gather_facts: no
   roles:
-    - { role: k3-install/ssh_keygen, tags: k3-install }
+    - { role: k3-install/ssh_keygen, tags: k3s-install }
   environment:
     KUBECONFIG: "{{ kubeconfig_location }}"
 
@@ -24,13 +24,13 @@
   gather_facts: no
   become: yes
   roles:
-    - { role: k3-install/user, tags: k3-install }
+    - { role: k3-install/user, tags: k3s-install }
 
 - hosts: localhost
   connection: local
   gather_facts: no
   roles:
-    - { role: k3-install/first-node, tags: k3-install }
+    - { role: k3-install/node-install, tags: k3s-install }
   environment:
     KUBECONFIG: "{{ kubeconfig_location }}"
 
@@ -38,7 +38,7 @@
   gather_facts: no
   become: yes
   roles:
-    - { role: k3-install/cleanup, tags: k3-install }
+    - { role: k3-install/cleanup, tags: k3s-install }
 # - hosts: localhost
 #   gather_facts: no
 #   connection: local

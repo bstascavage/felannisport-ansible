@@ -1,12 +1,26 @@
 ---
-- name: Check if cluster already exists
-  shell: kubectl cluster-info
+- name: Check cluster node list
+  shell: kubectl get nodes -o jsonpath="{.items[*].metadata.name}"
   register: cluster_check
   changed_when: False
   ignore_errors: yes
 
-- name: Create temporary SSH key for k3s install yser
-  openssh_keypair:
+- name: Set variable if new node deployment needs to occur
+  set_fact:
+    deploy_new_node: true
+  with_items: "{{ groups['all'] }}"
+  when: item not in cluster_check.stdout
+
+- name: Set variable for list of new nodes
+  set_fact:
+    new_nodes: "{{new_nodes | default([]) + [item]}}" 
+  with_items: "{{ groups['all'] }}"
+  when: item not in cluster_check.stdout
+
+- name: Create temporary SSH key for k3s install user
+  local_action:
+    module: openssh_keypair
     path: temp-user
     force: True
-  when: cluster_check.rc != 0
+  with_items: "{{ groups['all'] }}"
+  when: hostvars['localhost']['deploy_new_node'] is defined
