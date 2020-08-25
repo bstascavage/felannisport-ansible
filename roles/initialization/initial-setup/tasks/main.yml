@@ -58,6 +58,13 @@
 ### https://docs.docker.com/engine/install/ubuntu/
 ### Do not use Snap!
 
+- name: Upgrade all packages to the latest version
+  apt:
+    name: "*"
+    state: latest
+  when: "'apt-update' in ansible_run_tags"
+  tags: apt-update
+
 - name: Add Docker's GPG key
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
