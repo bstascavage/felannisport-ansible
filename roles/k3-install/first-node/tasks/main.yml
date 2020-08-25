@@ -13,5 +13,16 @@
     --k3s-extra-args '--docker' \
     --local-path "{{ kubeconfig_location }}" \
     --context "{{ kubectl_context }}" \
-    --ssh-key keys/temp-user
+    --ssh-key temp-user
   when: cluster_check.rc != 0
+
+- name: Delete temporary SSH keypair
+  local_action:
+    module: file
+    path: temp-user
+    state: absent
+
+- local_action:
+    module: file
+    path: temp-user.pub
+    state: absent

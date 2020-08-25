@@ -24,7 +24,7 @@
   authorized_key:
     user: k3s-temp-user
     state: present
-    key: "{{ lookup('file', 'keys/temp-user.pub') }}"
+    key: "{{ lookup('file', 'temp-user.pub') }}"
   register: add_identity_key
   when: default_user is defined and cluster_check.rc != 0
 

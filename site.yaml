@@ -12,6 +12,14 @@
   roles:
     - { role: initialization/cgroup, tags: cgroup, cluster }
 
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  roles:
+    - { role: k3-install/ssh_keygen, tags: k3-install }
+  environment:
+    KUBECONFIG: "{{ kubeconfig_location }}"
+
 - hosts: all
   gather_facts: no
   become: yes
