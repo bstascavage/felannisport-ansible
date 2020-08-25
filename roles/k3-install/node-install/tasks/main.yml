@@ -27,13 +27,14 @@
   with_items: "{{ hostvars['localhost']['new_nodes'] }}"
   when: hostvars['localhost']['deploy_new_node'] is defined 
 
-- name: Delete temporary SSH keypair
+- name: Delete temporary SSH keypair - private key
   local_action:
     module: file
     path: "temp-user"
     state: absent
 
-- local_action:
+- name: Delete temporary SSH keypair - public key
+  local_action:
     module: file
     path: "temp-user.pub"
     state: absent
