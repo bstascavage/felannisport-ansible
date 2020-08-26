@@ -20,6 +20,7 @@
 - name: Wait buffer for master node to be ready
   pause:
     seconds: 30
+  when: cluster_check.rc != 0
 
 - name: Run k3sup join for remaining nodes
   shell: k3sup join \
@@ -35,6 +36,7 @@
 - name: Wait buffer for nodes to finish configuration
   pause:
     seconds: 30
+  when: hostvars['localhost']['deploy_new_node'] is defined 
 
 - name: Delete temporary SSH keypair - private key
   local_action:
