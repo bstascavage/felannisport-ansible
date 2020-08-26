@@ -22,7 +22,8 @@
     --ip {{ hostvars[item].ansible_host }} \
     --user k3s-temp-user \
     --k3s-extra-args '--docker' \
-    --ssh-key "temp-user"
+    --ssh-key "temp-user" \
+    --k3s-extra-args "--node-label node-role.kubernetes.io/worker=worker"
     --server-ip "{{ hostvars[groups['master'][0]].ansible_host }}"
   with_items: "{{ hostvars['localhost']['new_nodes'] }}"
   when: hostvars['localhost']['deploy_new_node'] is defined 
