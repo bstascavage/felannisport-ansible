@@ -5,7 +5,7 @@
     chart_ref: "{{ item.value.repo_name }}/{{ item.value.name }}"
     release_namespace: "{{ item.value.namespace }}"
     create_namespace: true
-    values: "{{ lookup('file', 'charts/'+item.value.name+'/values.yaml') | from_yaml }}"
+    values: "{{ lookup('template', 'charts/'+item.value.name+'/values.yaml.j2') | from_yaml }}"
   loop: "{{ lookup('dict', charts, wantlist=True) }}"
 
 - name: Applying misc k8s configs
