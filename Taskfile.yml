@@ -1,17 +1,20 @@
 version: "2.6"
 
 tasks:
-  node_init:
+  init:
+    desc: Initial user creation for new nodes
     cmds:
       - |
         ansible-playbook site.yaml -t initial,apt-update -e 'ansible_user=ubuntu' -k
 
   deploy:
+    desc: Adds nodes to the k3s cluster
     cmds:
       - |
         ansible-playbook site.yaml
 
-  apt-update:
+  apt_update:
+    desc: Update apt packages on node OS
     cmds:
       - |
         ansible-playbook site.yaml -t apt-update
