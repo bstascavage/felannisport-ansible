@@ -1,0 +1,17 @@
+version: "2.6"
+
+tasks:
+  node_init:
+    cmds:
+      - |
+        ansible-playbook site.yaml -t initial,apt-update -e 'ansible_user=ubuntu' -k
+
+  deploy:
+    cmds:
+      - |
+        ansible-playbook site.yaml
+
+  apt-update:
+    cmds:
+      - |
+        ansible-playbook site.yaml -t apt-update
