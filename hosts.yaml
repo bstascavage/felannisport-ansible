@@ -21,7 +21,7 @@ all:
         ]
 
   children:
-    first_node:
+    master:
       hosts:
         kube-01:
     other_nodes:

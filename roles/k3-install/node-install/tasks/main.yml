@@ -14,7 +14,7 @@
     --local-path "{{ kubeconfig_location }}" \
     --context "{{ kubectl_context }}" \
     --ssh-key "temp-user"
-  with_items: "{{ groups['first_node'] }}"
+  with_items: "{{ groups['master'] }}"
   when: cluster_check.rc != 0
 
 - name: Run k3sup install for remaining nodes
@@ -23,7 +23,7 @@
     --user k3s-temp-user \
     --k3s-extra-args '--docker' \
     --ssh-key "temp-user"
-    --server-ip "{{ hostvars[groups['first_node'][0]].ansible_host }}"
+    --server-ip "{{ hostvars[groups['master'][0]].ansible_host }}"
   with_items: "{{ hostvars['localhost']['new_nodes'] }}"
   when: hostvars['localhost']['deploy_new_node'] is defined 
 
