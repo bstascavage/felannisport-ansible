@@ -1,7 +1,6 @@
 ---
 - name: Adding helm chart repos
   community.kubernetes.helm_repository:
-    name: "{{ item.value.repo_name }}"
+    name: "{{ item.key }}"
     repo_url: "{{ item.value.repo_url }}"
-  loop: "{{ lookup('dict', charts) }}"
-  when: item.value.repo_url is defined
+  loop: "{{ lookup('dict', repos, wantlist=True) }}"
