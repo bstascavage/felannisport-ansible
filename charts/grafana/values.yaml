@@ -3,9 +3,6 @@ image:
   tag: 7.1.1
   pullPolicy: IfNotPresent
 
-service:
-  type: LoadBalancer
-
 ingress:
   enabled: true
   annotations:
