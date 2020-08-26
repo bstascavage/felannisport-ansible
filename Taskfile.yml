@@ -7,7 +7,7 @@ tasks:
       - |
         ansible-playbook site.yaml -t initial,apt-update -e 'ansible_user=ubuntu' -k
 
-  deploy:
+  cluster:
     desc: Adds nodes to the k3s cluster
     cmds:
       - |
@@ -24,3 +24,12 @@ tasks:
     cmds:
       - |
         ansible-playbook site.yaml -t helm
+
+  ## TODO: Figure out a way to override the list of all helm charts
+  deploy:
+    desc: Deploy specific helm chart
+    vars:
+      chart: '{{.chart | default "a"}}'
+    cmds:
+      - |
+        echo {{.chart}}
