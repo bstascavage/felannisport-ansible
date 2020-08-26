@@ -1,15 +1,20 @@
 ---
+## Tag inheritance along with gather_facts doesn't work properly.  Roles do not inherit gather_facts right.
+## We can work around this by listing tags for all roles that need facts.
 - hosts: all
   gather_facts: yes
   become: yes
-  roles:
-    - { role: initialization/initial-setup, tags: [initial, cluster] }
-    - { role: initialization/netplan, tags: [netplan, cluster] }
+  tags:
+    - facts
+    - netplan
+    - cluster
 
 - hosts: all
   gather_facts: no
   become: yes
   roles:
+    - { role: initialization/initial-setup, tags: [initial, cluster] }
+    - { role: initialization/netplan, tags: [netplan, cluster] }
     - { role: initialization/cgroup, tags: [cgroup, cluster] }
 
 - hosts: localhost
