@@ -1,0 +1,22 @@
+---
+### Need to add Docker install instructions:
+### https://docs.docker.com/engine/install/ubuntu/
+### Do not use Snap!
+- name: Add Docker's GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Adding Docker's repository to apt
+  apt_repository:
+    repo: "deb [arch=arm64] https://download.docker.com/linux/ubuntu focal stable"
+    state: present
+
+- name: Install docker
+  apt:
+    pkg:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: present
+    update_cache: yes
