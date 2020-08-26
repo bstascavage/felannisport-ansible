@@ -11,10 +11,16 @@ tasks:
     desc: Adds nodes to the k3s cluster
     cmds:
       - |
-        ansible-playbook site.yaml
+        ansible-playbook site.yaml -t cluster,k3s-install
 
   apt_update:
     desc: Update apt packages on node OS
     cmds:
       - |
         ansible-playbook site.yaml -t apt-update
+  
+  helm:
+    desc: Deploy helm charts
+    cmds:
+      - |
+        ansible-playbook site.yaml -t helm
