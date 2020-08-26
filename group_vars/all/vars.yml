@@ -38,3 +38,7 @@ charts:
     name: grafana
     namespace: monitoring
     repo_name: stable
+  dex:
+    name: dex
+    namespace: dex
+    repo_name: stable

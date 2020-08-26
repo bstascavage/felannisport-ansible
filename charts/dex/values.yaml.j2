@@ -1,0 +1,102 @@
+ingress:
+  enabled: true
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "true"
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: "traefik"
+    certmanager.k8s.io/acme-http01-edit-in-place: "true"
+  labels: {}
+  hosts:
+    - dex.felannisport.com
+  tls:
+    - secretName: letsencrypt-dex
+      hosts:
+        - dex.felannisport.com
+
+image: raspbernetes/dex
+
+certs:
+  securityContext:
+    enabled: true
+    runAsUser: 65534
+    fsGroup: 65534
+  ## This is a arm64 image I (bstascavage) built from the amd64 image.
+  ## It is just a generic ubuntu image with openssl.
+  image: bstascav/ubuntu-openssl
+  imageTag: "latest"
+  imagePullPolicy: "IfNotPresent"
+  web:
+    create: true
+    activeDeadlineSeconds: 600
+    caDays: 10000
+    certDays: 10000
+    altNames:
+      - dex.io
+    altIPs: {}
+    secret:
+      tlsName: dex-web-server-tls
+      caName: dex-web-server-ca
+    pod:
+      annotations: {}
+  grpc:
+    create: true
+    activeDeadlineSeconds: 300
+    altNames:
+      - dex.io
+    altIPs: {}
+    secret:
+      serverTlsName: dex-grpc-server-tls
+      clientTlsName: dex-grpc-client-tls
+      caName: dex-grpc-ca
+    pod:
+      annotations: {}
+
+config:
+  issuer: https://dex.felannisport.com
+  storage:
+    type: kubernetes
+    config:
+      inCluster: true
+  logger:
+    level: debug
+  web:
+    # port is taken from ports section above
+    address: 0.0.0.0
+    tlsCert: /etc/dex/tls/https/server/tls.crt
+    tlsKey: /etc/dex/tls/https/server/tls.key
+# Section below is relevant only when grpc support is enabled
+  grpc:
+    # port is taken from ports section above
+    address: 0.0.0.0
+#    tlsCert: /etc/dex/tls/grpc/server/tls.crt
+#    tlsKey: /etc/dex/tls/grpc/server/tls.key
+#    tlsClientCA: /etc/dex/tls/grpc/ca/tls.crt
+  connectors:
+  - type: oidc
+    id: google
+    name: Google
+    config:
+      issuer: https://accounts.google.com
+      clientID: "{{ google_client_id }}"
+      clientSecret: "{{ google_client_secret }}"
+      redirectURI: https://dex.felannisport.com/callback
+      hostedDomains:
+        - stascavage.com
+  oauth2:
+    alwaysShowLoginScreen: false
+    skipApprovalScreen: true
+
+#   logoURL: https://example.com/yourlogo.png
+
+  staticClients:
+  - id: dex-secret
+    name: dex-secret
+    secret: ZXhhbXBsZS1hcHAtc2VjcmV0
+    redirectURIs:
+    - "https://login.felannisport.com/callback/"
+  - id: dex-grafana
+    name: dex-grafana
+    secret: ZXhhbXBsZS1hcHAtc2VjcmV0sdleojfdpoounwes
+    redirectURIs:
+    - "https://grafana.felannisport.com/login/generic_oauth"
