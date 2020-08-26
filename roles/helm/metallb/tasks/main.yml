@@ -1,0 +1,13 @@
+---
+- name: Add bitnami chart repo
+  community.kubernetes.helm_repository:
+    name: bitnami
+    repo_url: "https://charts.bitnami.com/bitnami"
+
+- name: Installing metallb
+  community.kubernetes.helm:
+    name: metallb
+    chart_ref: bitnami/metallb
+    release_namespace: metallb
+    create_namespace: true
+    values: "{{ lookup('file', 'helm_charts/metallb/values.yaml') | from_yaml }}"

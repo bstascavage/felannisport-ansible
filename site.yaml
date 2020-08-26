@@ -40,10 +40,11 @@
   become: yes
   roles:
     - { role: k3-install/cleanup, tags: k3s-install }
-# - hosts: localhost
-#   gather_facts: no
-#   connection: local
-#   roles:
-#     - { role: k3-install/helm, tags: helm }
-#   environment:
-#     KUBECONFIG: "{{ kubeconfig_location }}"
+
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  roles:
+    - { role: helm/metallb, tags: [ helm, metallb ] }
+  environment:
+    KUBECONFIG: "{{ kubeconfig_location }}"

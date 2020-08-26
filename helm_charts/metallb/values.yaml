@@ -1,0 +1,16 @@
+configInline:
+  address-pools:
+  - name: default
+    protocol: layer2
+    addresses:
+    - 192.168.1.128-196.168.1.131
+
+controller:
+  image:
+    repository: metallb/controller
+    tag: main
+
+speaker:
+  image:
+    repository: metallb/speaker
+    tag: main
