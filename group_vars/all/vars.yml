@@ -22,11 +22,6 @@ kubeconfig_location: ./kubeconfig
 
 ### Helm variables
 charts:
-  metallb:
-    name: metallb
-    namespace: metallb
-    repo_name: bitnami
-    repo_url: "https://charts.bitnami.com/bitnami"
   cert_manager:
     name: cert-manager
     namespace: cert-manager
