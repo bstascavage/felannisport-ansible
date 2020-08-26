@@ -36,6 +36,6 @@ charts:
     extra_configs: true
   grafana:
     name: grafana
-    namespace: grafana
+    namespace: monitoring
     repo_name: stable
     repo_url: https://kubernetes-charts.storage.googleapis.com
