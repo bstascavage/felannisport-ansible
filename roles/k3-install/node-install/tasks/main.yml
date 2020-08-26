@@ -17,6 +17,10 @@
   with_items: "{{ groups['master'] }}"
   when: cluster_check.rc != 0
 
+- name: Wait buffer for master node to be ready
+  pause:
+    seconds: 30
+
 - name: Run k3sup join for remaining nodes
   shell: k3sup join \
     --ip {{ hostvars[item].ansible_host }} \
@@ -27,6 +31,10 @@
     --server-ip "{{ hostvars[groups['master'][0]].ansible_host }}"
   with_items: "{{ hostvars['localhost']['new_nodes'] }}"
   when: hostvars['localhost']['deploy_new_node'] is defined 
+
+- name: Wait buffer for nodes to finish configuration
+  pause:
+    seconds: 30
 
 - name: Delete temporary SSH keypair - private key
   local_action:
