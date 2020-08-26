@@ -42,7 +42,7 @@ charts:
     repo_name: stable
   influxdb:
     name: influxdb
-    namespace: influxdb
+    namespace: monitoring
     repo_name: influxdata
   dex:
     name: dex
