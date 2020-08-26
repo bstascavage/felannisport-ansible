@@ -24,6 +24,6 @@ all:
     master:
       hosts:
         kube-01:
-    other_nodes:
+    workers:
       hosts:
         kube-02:
