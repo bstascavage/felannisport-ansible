@@ -3,14 +3,14 @@
   gather_facts: yes
   become: yes
   roles:
-    - { role: initialization/initial-setup, tags: initial, cluster }
-    - { role: initialization/netplan, tags: netplan, cluster }
+    - { role: initialization/initial-setup, tags: [initial, cluster] }
+    - { role: initialization/netplan, tags: [netplan, cluster] }
 
 - hosts: all
   gather_facts: no
   become: yes
   roles:
-    - { role: initialization/cgroup, tags: cgroup, cluster }
+    - { role: initialization/cgroup, tags: [cgroup, cluster] }
 
 - hosts: localhost
   connection: local
