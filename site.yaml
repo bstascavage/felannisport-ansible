@@ -45,6 +45,7 @@
   connection: local
   gather_facts: no
   roles:
-    - { role: helm/metallb, tags: [ helm, metallb ] }
+    - { role: helm/repos, tags: [ helm, helm-repos ] }
+    - { role: helm/install, tags: [ helm, helm-install ] }
   environment:
     KUBECONFIG: "{{ kubeconfig_location }}"

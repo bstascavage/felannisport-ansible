@@ -1,0 +1,9 @@
+---
+- name: Installing metallb
+  community.kubernetes.helm:
+    name: "{{ item.value.name }}"
+    chart_ref: "{{ item.value.repo_name }}/{{ item.value.name }}"
+    release_namespace: "{{ item.value.namespace }}"
+    create_namespace: true
+    values: "{{ lookup('file', 'helm_charts/'+item.value.name+'/values.yaml') | from_yaml }}"
+  loop: "{{ lookup('dict', charts) }}"
