@@ -13,4 +13,4 @@
     state: present
     definition: "{{ lookup('template', 'charts/'+item.value.name+'/configs/config.yaml') }}"
   loop: "{{ lookup('dict', charts, wantlist=True) }}"
-  when: items.value.extra_configs is defined
+  when: item.value.extra_configs is defined
