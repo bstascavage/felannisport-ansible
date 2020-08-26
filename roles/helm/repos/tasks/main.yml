@@ -4,3 +4,4 @@
     name: "{{ item.value.repo_name }}"
     repo_url: "{{ item.value.repo_url }}"
   loop: "{{ lookup('dict', charts) }}"
+  when: item.value.repo_url is defined
