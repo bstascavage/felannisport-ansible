@@ -14,7 +14,8 @@ ingress:
       hosts:
         - dex.felannisport.com
 
-image: raspbernetes/dex
+image: "{{ charts.dex.image_name }}"
+imageTag: "{{ charts.dex.image_version }}"
 
 certs:
   securityContext:

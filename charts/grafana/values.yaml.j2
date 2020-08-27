@@ -1,6 +1,6 @@
 image:
-  repository: grafana/grafana
-  tag: 7.1.1
+  repository: "{{ charts.grafana.image_name }}"
+  tag: "{{ charts.grafana.image_version }}"
   pullPolicy: IfNotPresent
 
 ingress:

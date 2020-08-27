@@ -2,8 +2,8 @@ service:
   type: LoadBalancer
 
 image:
-  repository: "influxdb"
-  tag: "1.7"
+  repository: "{{ charts.influxdb.image_name }}"
+  tag: "{{ charts.influxdb.image_version }}"
 
 persistence:
   enabled: false

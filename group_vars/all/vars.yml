@@ -33,18 +33,26 @@ charts:
   cert_manager:
     name: cert-manager
     namespace: cert-manager
+    image_name: quay.io/jetstack/cert-manager-controller
+    image_version: v0.16.1
     chart_version: v0.16.1
     repo_name: jetstack
     extra_configs: true
   grafana:
     name: grafana
     namespace: monitoring
+    image_name: grafana/grafana
+    image_version: 7.1.1
     repo_name: stable
   influxdb:
     name: influxdb
     namespace: monitoring
+    image_name: influxdb
+    image_version: 1.7
     repo_name: influxdata
   dex:
     name: dex
     namespace: dex
+    image_name: raspbernetes/dex
+    image_version: v2.24.0
     repo_name: stable
