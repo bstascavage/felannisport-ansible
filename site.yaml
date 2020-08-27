@@ -14,7 +14,7 @@
   become: yes
   roles:
     - { role: initialization/initial-setup, tags: [initial, cluster] }
-    - { role: initialization/netplan, tags: [netplan, cluster] }
+    #- { role: initialization/netplan, tags: [netplan, cluster] }
     - { role: initialization/cgroup, tags: [cgroup, cluster] }
     - { role: initialization/docker-install, tags: [docker, cluster] }
 
