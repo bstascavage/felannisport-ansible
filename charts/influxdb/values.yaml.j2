@@ -7,3 +7,9 @@ image:
 
 persistence:
   enabled: false
+
+initScripts:
+  enabled: true
+  scripts:
+    init.iql: |+
+      CREATE DATABASE "smartthings" WITH DURATION 30d
