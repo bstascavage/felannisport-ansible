@@ -1,0 +1,28 @@
+configInline:
+  address-pools:
+  - name: default
+    protocol: layer2
+    addresses:
+    - {{ lb_ip_address_range }}
+
+controller:
+  image:
+    repository: metallb/controller
+    tag: main
+
+speaker:
+  image:
+    repository: metallb/speaker
+    tag: main
+
+controller:
+  image:
+    registry: docker.io
+    repository: metallb/controller
+    tag: "{{ charts.metallb.image_version }}"
+
+speaker:
+  image:
+    registry: docker.io
+    repository: metallb/controller
+    tag: "{{ charts.metallb.image_version }}"

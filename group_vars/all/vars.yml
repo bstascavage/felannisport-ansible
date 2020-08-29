@@ -6,6 +6,7 @@ setup_user: ubuntu
 default_user: bstascav
 ssh_identity_key: /Users/bstascav/.ssh/publickey.pub
 ssh_identity_key_temp_user: "{{ ssh_identity_key }}"
+lb_ip_address_range: 192.168.1.128-192.168.1.140
 
 ansible_python_interpreter: /usr/bin/python3
 ansible_user: "{{ default_user }}"
@@ -30,6 +31,11 @@ repos:
     repo_url: https://helm.influxdata.com/
 
 charts:
+  metallb:
+    name: metallb
+    namespace: metallb
+    image_version: v0.9
+    repo_name: bitnami
   cert_manager:
     name: cert-manager
     namespace: cert-manager
