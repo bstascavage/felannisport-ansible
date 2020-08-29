@@ -2,7 +2,7 @@ version: "2.6"
 
 tasks:
   init:
-    desc: Initial user creation for new nodes
+    desc: Initial user creation for new nodes.  Run before `task cluster`
     cmds:
       - |
         ansible-playbook site.yaml -t initial,apt-update -e 'ansible_user=ubuntu' -k
@@ -14,22 +14,15 @@ tasks:
         ansible-playbook site.yaml -t cluster,k3s-install
 
   apt_update:
-    desc: Update apt packages on node OS
+    desc: Update apt packages on the nodes' OS
     cmds:
       - |
         ansible-playbook site.yaml -t apt-update
-  
-  helm:
-    desc: Deploy helm charts
-    cmds:
-      - |
-        ansible-playbook site.yaml -t helm
 
-  ## TODO: Figure out a way to override the list of all helm charts
   deploy:
-    desc: Deploy specific helm chart
+    desc: "Deploy specific helm chart.  Usage: `task deploy chart=<chart_name>`"
     vars:
-      chart: '{{.chart | default "a"}}'
+      chart: '{{.chart | default "none"}}'
     cmds:
       - |
-        echo {{.chart}}
+        ansible-playbook site.yaml -t helm --extra-vars "chart_name={{.chart}}"
