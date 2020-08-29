@@ -1,5 +1,6 @@
 service:
   type: LoadBalancer
+  externalIPs: [{{ charts.influxdb.lb_ip_address }}]
 
 image:
   repository: "{{ charts.influxdb.image_name }}"
