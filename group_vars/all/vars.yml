@@ -36,6 +36,7 @@ charts:
     namespace: metallb
     image_version: v0.9
     repo_name: bitnami
+    lb_ip_address_range: 192.168.1.128-192.168.1.140
   cert_manager:
     name: cert-manager
     namespace: cert-manager

@@ -3,7 +3,7 @@ configInline:
   - name: default
     protocol: layer2
     addresses:
-    - {{ lb_ip_address_range }}
+    - {{ charts.metallb.lb_ip_address_range }}
 
 controller:
   image:
