@@ -14,5 +14,5 @@
 - name: Set variable for list of new nodes
   set_fact:
     new_nodes: "{{new_nodes | default([]) + [item]}}" 
-  with_items: "{{ groups['workers'] }}"
+  with_items: "{{ groups['other_masters'] }}"
   when: item not in cluster_check.stdout

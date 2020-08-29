@@ -12,7 +12,7 @@
     group: wheel
     shell: /bin/bash
     create_home: yes
-  when: hostvars['localhost']['deploy_new_node'] is defined and (inventory_hostname in groups['master'] or inventory_hostname in hostvars['localhost']['new_nodes'])
+  when: hostvars['localhost']['deploy_new_node'] is defined and (inventory_hostname in groups['first'] or inventory_hostname in hostvars['localhost']['new_nodes'])
 
 - name: Set authorized key taken from file for temporary k3s install user
   authorized_key:
@@ -20,7 +20,7 @@
     state: present
     key: "{{ lookup('file', 'temp-user.pub') }}"
   register: add_identity_key
-  when: default_user is defined and hostvars['localhost']['deploy_new_node'] is defined and (inventory_hostname in groups['master'] or inventory_hostname in hostvars['localhost']['new_nodes'])
+  when: default_user is defined and hostvars['localhost']['deploy_new_node'] is defined and (inventory_hostname in groups['first'] or inventory_hostname in hostvars['localhost']['new_nodes'])
 
 - name: Add wheel group to sudoers
   lineinfile:
