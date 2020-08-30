@@ -45,6 +45,7 @@ charts:
     chart_version: v0.16.1
     repo_name: jetstack
     extra_configs: true
+    post_install_delay: true
   grafana:
     name: grafana
     namespace: monitoring

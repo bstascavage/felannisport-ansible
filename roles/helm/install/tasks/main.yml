@@ -11,10 +11,16 @@
   when: chart_name is not defined or item.value.name == chart_name
   throttle: 1
 
+- name: Delaying if misc configs need to be staggered
+  pause:
+    seconds: 30
+  loop: "{{ lookup('dict', charts, wantlist=True) }}"
+  when: item.value.post_install_delay | default('false') | bool
+
 - name: Applying misc k8s configs
   k8s:
     state: present
     definition: "{{ lookup('template', 'charts/'+item.value.name+'/configs/config.yaml') }}"
   loop: "{{ lookup('dict', charts, wantlist=True) }}"
-  when: item.value.extra_configs is defined and (chart_name is not defined or item.value.name == chart_name)
+  when: item.value.extra_configs | default('false') | bool and (chart_name is not defined or item.value.name == chart_name)
   throttle: 1
