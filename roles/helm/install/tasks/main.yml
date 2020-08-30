@@ -15,7 +15,7 @@
   pause:
     seconds: 30
   loop: "{{ lookup('dict', charts, wantlist=True) }}"
-  when: item.value.post_install_delay | default('false') | bool
+  when: item.value.post_install_delay | default('false') | bool and item.value.name == chart_name
 
 - name: Applying misc k8s configs
   k8s:
