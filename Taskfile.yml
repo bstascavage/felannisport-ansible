@@ -6,18 +6,21 @@ tasks:
     cmds:
       - |
         ansible-playbook site.yaml -t initial,apt-update -e 'ansible_user=ubuntu' -k
+    silent: true
 
   cluster:
     desc: Adds nodes to the k3s cluster
     cmds:
       - |
         ansible-playbook site.yaml -t cluster,k3s-install
+    silent: true
 
   apt_update:
     desc: Update apt packages on the nodes' OS
     cmds:
       - |
         ansible-playbook site.yaml -t apt-update
+    silent: true
 
   deploy:
     desc: "Deploy specific helm chart.  Usage: `task deploy chart=<chart_name>`"
@@ -26,3 +29,11 @@ tasks:
     cmds:
       - |
         ansible-playbook site.yaml -t helm --extra-vars "chart_name={{.chart}}"
+    silent: true
+
+  list:
+    desc: List installed helm deployments
+    cmds:
+      - |
+        helm list -A
+    silent: true
