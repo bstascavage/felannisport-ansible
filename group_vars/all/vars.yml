@@ -6,7 +6,6 @@ setup_user: ubuntu
 default_user: bstascav
 ssh_identity_key: /Users/bstascav/.ssh/publickey.pub
 ssh_identity_key_temp_user: "{{ ssh_identity_key }}"
-lb_ip_address_range: 192.168.1.128-192.168.1.140
 
 ansible_python_interpreter: /usr/bin/python3
 ansible_user: "{{ default_user }}"
@@ -20,6 +19,7 @@ sshd_config: /etc/ssh/sshd_config
 # Kubernetes Cluster
 kubectl_context: felannisport
 kubeconfig_location: ./kubeconfig
+k3s_host: k3s.felannisport.com
 
 ### Helm variables
 repos:

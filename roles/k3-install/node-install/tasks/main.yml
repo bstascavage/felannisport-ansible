@@ -4,6 +4,7 @@
   register: cluster_check
   changed_when: False
   ignore_errors: yes
+  delegate_to: localhost
 
 - name: Run k3sup install for the first master node
   shell: k3sup install \
@@ -15,24 +16,28 @@
     --context "{{ kubectl_context }}" \
     --cluster \
     --ssh-key "temp-user"
-  with_items: "{{ groups['first'] }}"
-  when: cluster_check.rc != 0
+  loop: "{{ groups['masters'] }}"
+  when: cluster_check.rc != 0 and item == groups['masters'][0]
 
 - name: Wait buffer for master node to be ready
   pause:
     seconds: 30
   when: cluster_check.rc != 0
 
+## Need to look up the k3s ip address because k3sup is still behind the times
 - name: Run k3sup join for remaining master nodes
   shell: k3sup join \
     --ip {{ hostvars[item].ansible_host }} \
     --user k3s-temp-user \
     --k3s-extra-args '--docker' \
     --ssh-key "temp-user" \
-    --server-ip "{{ hostvars[groups['first'][0]].ansible_host }}" \
+    --server-ip {{ hostvars[groups['masters'][0]].ansible_host }} \
     --server
-  with_items: "{{ hostvars['localhost']['new_nodes'] }}"
-  when: hostvars['localhost']['deploy_new_node'] is defined 
+  #with_items: "{{ hostvars['localhost']['new_nodes'] }}"
+  loop: "{{ groups['masters'] }}"
+  when: hostvars['localhost']['deploy_new_node'] is defined and item != groups['masters'][0]
+  throttle: 1
+  ignore_errors: yes
 
 - name: Wait buffer for nodes to finish configuration
   pause:
